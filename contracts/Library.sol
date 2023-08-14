@@ -86,7 +86,7 @@ contract Library {
         emit DeleteWork(msg.sender, workId);
     }
 
-    function getWorkList() public view returns (Work[] memory) {
+    function getWorkList() external view returns (Work[] memory) {
         Work[] memory temporary = new Work[](workList.length);
 
         uint counter = 0;

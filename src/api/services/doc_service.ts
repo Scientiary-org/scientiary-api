@@ -2,7 +2,7 @@ import { Doc } from "../../domain/entities/Doc";
 import { IDocService } from "../../domain/ports/idoc_service";
 import { contractAddress } from "../../../public/config/config";
 import { ethers } from 'ethers';
-import Library from '../../../artifacts/contracts/Library.sol/Library.json'
+import Library from '../../../public/abi/Library.json'
 
 declare let window: any;
 
@@ -67,4 +67,5 @@ export class DocService implements IDocService {
         return foundWork;
     }
 }
+
 

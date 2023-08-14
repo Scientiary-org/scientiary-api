@@ -5,7 +5,7 @@ require("dotenv").config()
 const config: HardhatUserConfig = {
   solidity: "0.8.18",
   networks: {
-    sepolia: {
+    goerli: {
       url: process.env.ALCHEMY_URL,
       accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : []
     }
