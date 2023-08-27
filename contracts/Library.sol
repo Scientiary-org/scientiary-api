@@ -10,19 +10,17 @@ contract Library {
         string ipfsHash;
     }
 
-    Work[] private workList;
+    Work[] public workList;
     mapping(uint256 => address) workToOwner;
     mapping(address => uint256[]) private worksByAddress; // Store the list of work IDs added by each address
     mapping(address => mapping(uint256 => bool)) private addedWorkIds; // Keep track of added works per address
 
-    event AddWork(address recipient, uint workId);
     event DeleteWork(address recipient, uint workId);
 
     function addWork(string memory name, uint16 year, string memory author, string memory ipfsHash) external {
         uint workId = workList.length;
         workList.push(Work(workId, name, year, author, ipfsHash));
         workToOwner[workId] = msg.sender;
-        emit AddWork(msg.sender, workId);
 
         // Add the work ID to the sender's addedWorkIds mapping
         addedWorkIds[msg.sender][workId] = true;
@@ -64,10 +62,8 @@ contract Library {
         return workList[workId];
     }
 
-
     function deleteWork(uint256 workId) external {
         require(workId < workList.length, "Invalid work ID");
-        require(workToOwner[workId] == msg.sender, "You are not the owner of this work");
 
         delete workList[workId];
         delete workToOwner[workId];
@@ -86,23 +82,10 @@ contract Library {
         emit DeleteWork(msg.sender, workId);
     }
 
-    function getWorkList() external view returns (Work[] memory) {
-        Work[] memory temporary = new Work[](workList.length);
-
-        uint counter = 0;
-
-        for (uint i = 0; i < workList.length; i++) {
-            if (workToOwner[i] == msg.sender) {
-                temporary[counter] = workList[i];
-                counter++;
-            }
-        }
-
-        Work[] memory result = new Work[](counter);
-        for (uint i = 0; i < counter; i++) {
-            result[i] = temporary[i];
-        }
-
-        return result;
+    function getWorkList() public view returns (Work[] memory) {
+        return workList;
     }
+
+    
 }
+
